@@ -1,19 +1,19 @@
 #!/bin/bash
 echo -e "\e[36m
 ------------------------------------------
-        Brendan's Luxury Arch Installer 
+        JCMG Wallboard Installer 
 ------------------------------------------
 \e[0m"
 
-sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 6/g' /etc/pacman.conf
+sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 20/g' /etc/pacman.conf
+sed -i '/^#VerbosePkgLists/a ILoveCandy' /etc/pacman.conf
 sed -i 's/#Color/Color/g' /etc/pacman.conf
 #Set username + hostname var
 
 echo -e "\e[33m  Enter Hostname to be created:\e[0m"
 read -p ":" hname
 echo -e "\e[33m  Enter Username to be created:\e[0m"
-read -p ":" newuname
-echo -e "\e[33m  Enter password:-\e[0m"
+newuname='wallboard'
 
 # set install destination var 
 
@@ -50,6 +50,31 @@ if [[ "$STR" == *"$SUB"* ]]; then
 dinstall="$dinstall"p
 fi
 echo $dinstall
+# set processor var
+PS3="CPU Processor:"
+cpuc=("AMD" "INTEL")
+select cpuselected in "${cpuc[@]}"
+do
+case $cpuselected in
+"${cpuselected[0]}")
+cpup="${cpuselected[0]}"
+break
+;;
+"${cpuselected[1]}")
+cpup="${cpuselected[1]}"
+break
+;;
+*) ;;
+esac
+done
+
+if [ "$cpup" = "AMD" ] ;
+then
+ucode="amd-ucode"
+else 
+ucode="intel-ucode"
+fi
+
 
 # confirm before instal
 
@@ -97,20 +122,9 @@ echo -e "\e[33m  Drives Created & formatted. Running packstrap :\e[0m"
 mount /dev/"$dinstall"3 /mnt
 pacstrap /mnt base \
 linux-firmware \
-linux \
+linux-zen \
 git \
-linux-headers \
-sudo \
-efibootmgr \
-networkmanager \
-nano \
-intel-ucode \
-htop \
-xorg-server \
-xorg-xinit \
-dmenu \
-grub \
-
+linux-zen-headers \
 
 # createing fstab to mount drives on boot
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -120,17 +134,27 @@ cat > /mnt/setup2.sh <<EOF
 # --- second stage install script #
 # install base components for sudo , bootloader and shell
 #pacman multi download mode 
-sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/g' /etc/pacman.conf
+sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 20/g' /etc/pacman.conf
+sed -i '/^#VerbosePkgLists/a ILoveCandy' /etc/pacman.conf
 sed -i 's/#Color/Color/g' /etc/pacman.conf
 #Set username + hostname var
+pacman -Sy --noconfirm \
+sudo \
+grub \
+efibootmgr \
+networkmanager \
+nano \
+$ucode \
 # set user passwords
 echo -e "\e[32m  Creating user:  =  \e""[0m \e[31m"$newuname"\e[0m"
-useradd -m "wallboard"
-passwd "$wallboard"
+useradd -m "$newuname"
+passwd "$newuname"
 echo -e "\e[32m  Set password for:  =  \e""[0m \e[31m"root"\e[0m"
 passwd
 # add user to default groups
-usermod -aG wheel,audio,video,optical,storage wallboard
+usermod -aG wheel,audio,video,optical,storage $newuname
+# set sudo to no password
+sed -i 's/# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/g' /etc/sudoers
 # set timezone
 ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
 hwclock --systohc
@@ -147,7 +171,7 @@ locale-gen
 # create bootloader
 mkdir /boot/EFI
 mount /dev/"$dinstall"1 /boot/EFI
-grub-install --target=x86_64-efi  --bootloader-id=wallboard --recheck
+grub-install --target=x86_64-efi  --bootloader-id=arch_uefi --recheck
 sed -i '$ a GRUB_FORCE_HIDDEN_MENU="true"' /etc/default/grub
 git clone https://github.com/8bitgrumpy/ainstall
 cp -rf ./ainstall/31_hold_shift /etc/grub.d
@@ -167,6 +191,8 @@ EOF
 chmod +x /mnt/setup2.sh
 arch-chroot /mnt ./setup2.sh
 rm /mnt/setup2.sh
+
+echo -e "\e[33m  Base install complete - Installing Desktop Enviroment \e[0m"
 
 #bit of tidy up at the end
 sudo pacman -Rsn --noconfirm  $(pacman -Qdtq)
