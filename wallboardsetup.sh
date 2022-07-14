@@ -55,8 +55,6 @@ echo $dinstall
 
 echo -e "\e[32m  Username:  =  \e""[0m \e[31m"$newuname"\e[0m"
 echo -e "\e[32m  Drive to be wiped : =  \e""[0m \e[31m"$dinstall"\e[0m"
-echo -e "\e[32m  CPU Processor type : =  \e""[0m \e[31m"$cpup"\e[0m"
-echo -e "\e[32m  GPU type : =  \e""[0m \e[31m"$gpu"\e[0m"
 
 read -p " Press w to continue No going back at this point. Any other key will exit this script. "
 if [ "$REPLY" != "w" ]; then
