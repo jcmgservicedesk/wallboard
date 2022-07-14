@@ -12,7 +12,7 @@ sed -i 's/#Color/Color/g' /etc/pacman.conf
 echo -e "\e[33m  Enter Hostname to be created:\e[0m"
 read -p ":" hname
 echo -e "\e[33m  Setting username to wallboard \e[0m"
-newuname=wallboard
+newuname="wallboard"
 echo -e "\e[33m  Enter password:-\e[0m"
 
 # set install destination var 
@@ -123,8 +123,8 @@ sed -i 's/#Color/Color/g' /etc/pacman.conf
 #Set username + hostname var
 # set user passwords
 echo -e "\e[32m  Creating user:  =  \e""[0m \e[31m"$newuname"\e[0m"
-useradd -m "wallboard"
-passwd "$wallboard"
+useradd -m $newuname
+passwd $newuname
 echo -e "\e[32m  Set password for:  =  \e""[0m \e[31m"root"\e[0m"
 passwd
 # add user to default groups
