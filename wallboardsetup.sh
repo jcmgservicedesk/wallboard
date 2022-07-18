@@ -134,7 +134,7 @@ passwd
 # add user to default groups
 usermod -aG wheel,audio,video,optical,storage $newuname
 # set sudo to no password
-sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/g' /etc/sudoers
+sed -i 's/# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/g' /etc/sudoers
 # set timezone
 ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
 hwclock --systohc
