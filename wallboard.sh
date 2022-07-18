@@ -36,8 +36,6 @@ rsync \
 signal-desktop \
 speedtest-cli \
 python3 \ 
-amd-ucode \
-nvidia-dkms \
 lxappearance \
 unzip \
 pcmanfm \
