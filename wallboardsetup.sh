@@ -107,11 +107,10 @@ xorg-server \
 xorg-xinit \
 dmenu \
 grub \
-bspwm \
 terminator \
 speedtest-cli \
 xorg \
-sxhkd
+
 
 
 # createing fstab to mount drives on boot
