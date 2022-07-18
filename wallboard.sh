@@ -66,6 +66,7 @@ cp -r ./wallboard_config/bash_profile ~/.bash_profile
 cp -r ./wallboard_config/bashrc ~/.bashrc
 cp -r ./wallboard_config/xinitrc ~/.xinitrc
 cp -r ./wallboard_config/xscreensaver ~/.xscreensaver
+mkdir ~/.config
 cp -rf ./wallboard_config/config/* ~/.config/
 chmod +x ~/.config/bspwm/bspwmrc
 chmod +x ~/.config/sxhkd/sxhkdrc
