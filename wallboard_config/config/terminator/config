@@ -1,0 +1,23 @@
+[global_config]
+  borderless = True
+[keybindings]
+[profiles]
+  [[default]]
+    background_darkness = 0.72
+    background_type = transparent
+    cursor_color = "#dc8add"
+    cursor_color_fg = False
+    foreground_color = "#d0b8f7"
+    show_titlebar = False
+    scrollbar_position = hidden
+    use_system_font = False
+    bold_is_bright = True
+[layouts]
+  [[default]]
+    [[[window0]]]
+      type = Window
+      parent = ""
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+[plugins]
