@@ -13,7 +13,6 @@ echo -e "\e[33m  Enter Hostname to be created:\e[0m"
 read -p ":" hname
 echo -e "\e[33m  Setting username to wallboard \e[0m"
 newuname="wallboard"
-echo -e "\e[33m  Enter password:-\e[0m"
 
 # set install destination var 
 
