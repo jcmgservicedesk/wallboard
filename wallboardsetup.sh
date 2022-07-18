@@ -132,7 +132,9 @@ passwd $newuname
 echo -e "\e[32m  Set password for:  =  \e""[0m \e[31m"root"\e[0m"
 passwd
 # add user to default groups
-usermod -aG wheel,audio,video,optical,storage wallboard
+usermod -aG wheel,audio,video,optical,storage $newuname
+# set sudo to no password
+sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/g' /etc/sudoers
 # set timezone
 ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
 hwclock --systohc
@@ -171,7 +173,7 @@ arch-chroot /mnt ./setup2.sh
 rm /mnt/setup2.sh
 
 #bit of tidy up at the end
-sudo pacman -Rsn --noconfirm  $(pacman -Qdtq)
+pacman -Rsn --noconfirm  $(pacman -Qdtq)
 
 #reboot because why not
 reboot
