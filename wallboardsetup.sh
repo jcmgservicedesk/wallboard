@@ -1,7 +1,7 @@
 #!/bin/bash
 echo -e "\e[36m
 ------------------------------------------
-        Brendan's Luxury Arch Installer 
+        JCMG Wallboard Arch Linux Installer 
 ------------------------------------------
 \e[0m"
 
@@ -108,6 +108,11 @@ xorg-server \
 xorg-xinit \
 dmenu \
 grub \
+bspwm \
+terminator \
+speedtest-cli \
+xorg \
+sxhkd
 
 
 # createing fstab to mount drives on boot
